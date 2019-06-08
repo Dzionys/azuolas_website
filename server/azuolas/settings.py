@@ -41,11 +41,12 @@ INSTALLED_APPS = [
     # own
     'warehouse',
     'blog',
-    'login',
+    'accounts',
 
     # third party
 
     'rest_framework',
+    'rest_framework.authtoken'
 
 ]
 
@@ -132,4 +133,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'login.User'
+AUTH_USER_MODEL = 'accounts.User'

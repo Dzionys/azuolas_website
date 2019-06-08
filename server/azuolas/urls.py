@@ -19,10 +19,10 @@ from blog.views import home_view
 from django.conf.urls import include
 
 admin.site.site_header = 'Ąžuolas.org administration'
-admin.site.site_title = 'Administration login'
+admin.site.site_title = 'KTU Ąžuolas'
 
 urlpatterns = [
     path('', home_view, name='home'),
     path('admin/', admin.site.urls),
-    path('', include('login.urls'))
+    path('', include('accounts.urls'))
 ]
