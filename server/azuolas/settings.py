@@ -38,16 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # own
-    'warehouse',
-    'blog',
-    'accounts',
-
     # third party
 
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
 
+    # own
+    'warehouse',
+    'blog',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -117,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'lt'
 
 TIME_ZONE = 'UTC'
 

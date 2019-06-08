@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class WarehouseConfig(AppConfig):
     name = 'warehouse'
-    verbose_name = 'Sandėlys'
+    verbose_name = 'Inventorius'
