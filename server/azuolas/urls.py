@@ -24,5 +24,6 @@ admin.site.site_title = 'KTU Ąžuolas'
 urlpatterns = [
     path('', home_view, name='home'),
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls'))
+    path('', include('accounts.urls')),
+    # path('', include('warehouse.urls'))
 ]
