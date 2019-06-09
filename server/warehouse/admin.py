@@ -1,9 +1,5 @@
 from django.contrib import admin
-from .models import Item, ItemType, ItemCondition, ItemState
-
-class ItemStateInline(admin.TabularInline):
-    model = ItemState
-    extra = 1
+from .models import Item, ItemType, ItemCondition
 
 @admin.register(ItemType)
 class ItemTypeAdmin(admin.ModelAdmin):
@@ -16,5 +12,4 @@ class ItemConditionAdmin(admin.ModelAdmin):
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    inlines = (ItemStateInline,)
 

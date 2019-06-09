@@ -16,8 +16,8 @@ class ItemListView(APIView):
 
 class ItemDetailView(APIView):
 
-    def get(self, request, pk, slug, format=None):
-        post = get_object_or_404(Item, pk=pk, slug=slug)
-        serializer = ItemSerializer(post)
+    def get(self, request, pk, format=None):
+        item = get_object_or_404(Item, pk=pk)
+        serializer = ItemSerializer(item)
 
         return Response(serializer.data)

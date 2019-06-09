@@ -26,12 +26,23 @@ class ItemCondition(models.Model):
 		return self.name
 
 class Item(models.Model):
+	STATES = (
+		(1, 'Laisva'),
+		(2, 'Rezervuota'),
+		(3, 'Paimta')
+	)
+
 	name = models.CharField(max_length=100, verbose_name='Pavadinimas', blank=True)
 	category = models.ForeignKey(ItemType, on_delete=models.PROTECT, verbose_name='Tipas')
 	color = models.CharField(max_length=100, verbose_name='Spalva')
+
+	#TODO: replace ItemCondition model with choices IntegerField, like with state.
 	condition = models.ForeignKey(ItemCondition, on_delete=models.PROTECT, verbose_name='Būklė')
 	description = models.TextField(verbose_name='Aprašymas')
 	slug = models.SlugField(verbose_name='Nuorodos pavadinimas')
+	user = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True)
+	state = models.IntegerField(choices=STATES, default=1)
+	date = models.DateField(verbose_name='Data')
 
 	class Meta:
 		verbose_name = 'Daiktas'
@@ -42,12 +53,3 @@ class Item(models.Model):
 			return f'{self.category} „{self.name}“'
 		else:
 			return self.category
-
-class ItemState(models.Model):
-	user = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True)
-	item = models.ForeignKey(Item, on_delete=models.CASCADE)
-	date = models.DateField(verbose_name='Data')
-	state = models.BooleanField()
-
-	class Meta:
-		unique_together = ('user', 'item')
