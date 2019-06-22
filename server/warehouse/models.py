@@ -15,12 +15,6 @@ class ItemType(models.Model):
 		return self.name
 
 class Item(models.Model):
-	STATES = (
-		(1, 'Laisva'),
-		(2, 'Rezervuota'),
-		(3, 'Paimta')
-	)
-
 	CONDITIONS = (
 		(1, 'Puiki'),
 		(2, 'Labai gera'),
@@ -37,9 +31,6 @@ class Item(models.Model):
 	condition = models.IntegerField(choices=CONDITIONS, verbose_name='Būklė', default=7)
 	description = models.TextField(verbose_name='Aprašymas')
 	slug = models.SlugField(verbose_name='Nuorodos pavadinimas')
-	user = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True)
-	state = models.IntegerField(choices=STATES, default=1, verbose_name='Statusas')
-	date = models.DateTimeField(verbose_name='Data')
 
 	class Meta:
 		verbose_name = 'Daiktas'
@@ -51,21 +42,46 @@ class Item(models.Model):
 		else:
 			return self.category
 
-	def get_state(self):
-		return self.STATES[self.state - 1][1]
-
 	def get_condition(self):
 		return self.CONDITIONS[self.condition - 1][1]
 
-class Log(models.Model):
 
+class Rental(models.Model):
+	STATES = (
+		(1, 'Laisva'),
+		(2, 'Rezervuota'),
+		(3, 'Paimta')
+	)
+
+	reservation_date = models.DateTimeField(verbose_name='Rezervacijos data', null=True)
+	pick_up_date = models.DateTimeField(verbose_name='Paėmimo data', null=True)
+	return_date = models.DateTimeField(verbose_name='Gražinimo data', null=True)
+	user = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True)
+	state = models.IntegerField(choices=STATES, default=1, verbose_name='Statusas')
+	item = models.OneToOneField(Item, on_delete=models.CASCADE, related_name='obj', null=False)
+
+	def __str__(self):
+		return self.STATES[self.state - 1][1]
+
+class Log(models.Model):
+	STATES = (
+		(1, 'Laisva'),
+		(2, 'Rezervuota'),
+		(3, 'Paimta')
+	)
+
+	state = models.IntegerField(choices=STATES, default=1, verbose_name='Statusas')
+	prev_state = models.IntegerField(choices=STATES, default=1, verbose_name='Buves statusas')
 	action = models.CharField(max_length=150, verbose_name='Veiksmas')
-	item = models.ForeignKey(Item, on_delete=models.CASCADE)
-	date = models.DateTimeField(verbose_name='Data')
-	user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True)
+	rent = models.ForeignKey(Rental, on_delete=models.CASCADE, null=False)
+	date = models.DateTimeField(verbose_name='Data', null=False)
+	user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.action
+
+	def get_state(self):
+		return self.STATES[self.state - 1][1]
 
 	class Meta:
 		verbose_name = 'Veiksmas'
